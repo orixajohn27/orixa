@@ -1,0 +1,275 @@
+# This workflow uses actions that are not certified by GitHub.import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
+import webbrowser
+
+# Função para exibir informações sobre os Orixás
+def exibir_informacoes(orixa, root):
+    orixas = {
+        "Exu": {
+            "Descrição": "Orixá mensageiro, senhor dos caminhos, do movimento e da comunicação.",
+            "Elemento": "Fogo",
+            "Cor": "Vermelho e Preto",
+            "Música": "https://www.youtube.com/watch?v=2offwqJ91ys",
+            "História": """Exú é um orixá, espécie de mensageiro responsável por fazer a ponte entre o humano e o divino.""",
+            "Video": "https://youtu.be/efersAEmwvk?si=kCT6cfQSRWlyfLYq"
+        },
+        "Ogum": {
+            "Descrição": "Orixá da guerra, da luta e da conquista.",
+            "Elemento": "Metal",
+            "Cor": "Azul e Prata",
+            "Música": "https://youtu.be/JteqDWrRHh4?si=8WEN05C7kTi4eDr4",
+            "História": """Ogum é o orixá guerreiro, relacionado à força, luta e resistência.""",
+            "Video": "https://youtu.be/LqldN8cQya0?si=SVKa7mr6BFDsatcd"
+        },
+        "Iansã": {
+            "Descrição": "Orixá dos ventos, das tempestades e do fogo.",
+            "Elemento": "Ar",
+            "Cor": "Amarelo e Marrom",
+            "Música": "https://youtu.be/aP5xDY1vsdk?si=ldrEW6q8PUNDHEie",
+            "História": """Iansã é uma guerreira poderosa, associada ao vento e ao fogo.""",
+            "Video": "https://youtu.be/pt6bTGGd300?si=DVd7znRh90LL6ulh"
+        },
+        "Oxum": {
+            "Descrição": "Orixá das águas doces, do amor e da fertilidade.",
+            "Elemento": "Água",
+            "Cor": "Amarelo",
+            "Música": "https://youtu.be/02GgNnkm59E?si=hoRdzni3GTQgE2vf",
+            "História": """Oxum é a senhora da beleza, da riqueza e da prosperidade.""",
+            "Video": "https://youtu.be/L8o1x2d487U?si=yugXiLu4a_BdnBjs"
+        },
+        "Yemanjá": {
+            "Descrição": "Orixá dos mares, mãe da criação e protetora das famílias.",
+            "Elemento": "Água",
+            "Cor": "Azul Claro e Branco",
+            "Música": "https://youtu.be/_E7XXz976xk?si=vX7j63oVNbUU_jTd",
+            "História": """Yemanjá é a mãe das águas, protetora da maternidade e das famílias.""",
+            "Video": "https://youtu.be/k3nX-cwnzaE?si=32SPL8XZiieKwo1_"
+        },
+        "Oxóssi": {
+            "Descrição": "Orixá da caça, da fartura e da floresta.",
+            "Elemento": "Terra",
+            "Cor": "Verde",
+            "Música": "https://youtu.be/wTvqBV7XIy8?si=rGgj5khoahESbLY4",
+            "História": """Oxóssi é o caçador e provedor, senhor da abundância e da natureza.""",
+            "Video": "https://youtu.be/mT_28ohVMX4?si=rvZd68Cen6xF0Ghw"
+        },
+        "Nanã": {
+            "Descrição": "Orixá da sabedoria, da ancestralidade e da terra.",
+            "Elemento": "Terra",
+            "Cor": "Lilás e Roxo",
+            "Música": "https://youtu.be/CSMiAPLkVys?si=dn1NSSp8KbFHf-14",
+            "História": """Nanã representa a conexão com a terra e com os antepassados.""",
+            "Video": "https://youtu.be/dJJGlivBkPk?si=ikI3zPnmTT1tRLT-"
+        },
+        "Obá": {
+            "Descrição": "Orixá da força feminina, do rio e da luta.",
+            "Elemento": "Água",
+            "Cor": "Vermelho Escuro",
+            "Música": "https://youtu.be/jc-NBPYUqOc?si=XrFzqZIcs7-F53V-",
+            "História": """Obá é a representação da força, coragem e determinação.""",
+            "Video": "https://youtu.be/CTqARwRL4sk?si=OEL_Z95KL9v7nPBj"
+        },
+        "Oxaguiã": {
+            "Descrição": "Orixá da paz, do alimento e da criação.",
+            "Elemento": "Metal",
+            "Cor": "Branco e Azul Claro",
+            "Música": "https://youtu.be/fMNz7SG0OhU?si=bgN5IBtwItfoVq45",
+            "História": """Oxaguiã é jovem, ligado à criação e à inovação.""",
+            "Video": "https://youtu.be/BytTiDfC30s?si=e2gJjQM0tTbhAzCQ"
+        },
+        "Xangô": {
+            "Descrição": "Orixá da justiça, do trovão e do fogo.",
+            "Elemento": "Fogo",
+            "Cor": "Vermelho e Branco",
+            "Música": "https://youtu.be/ZtOoxnOQ0Vc?si=VTelzeifiAmPrRJm",
+            "História": """Xangô é poderoso e sábio, representando o equilíbrio e a justiça.""",
+            "Video": "https://youtu.be/S4EjXTga6VQ?si=awagGDML2hLlvSg8"
+        },
+                "Oxumarê": {
+            "Descrição": "Orixá da riqueza, do ciclo da vida e da renovação.",
+            "Elemento": "Ar e Terra",
+            "Cor": "Amarelo e Verde",
+            "Música": "https://youtu.be/jc-NBPYUqOc?si=XrFzqZIcs7-F53V-",
+            "História": """Oxumarê é associado ao arco-íris e à continuidade, representando ciclos e transformações.""",
+            "Video": "https://youtu.be/CTqARwRL4sk?si=OEL_Z95KL9v7nPBj"
+        },
+        "Ossain": {
+            "Descrição": "Orixá das ervas, da cura e do conhecimento sobre a natureza.",
+            "Elemento": "Terra",
+            "Cor": "Verde e Branco",
+            "Música": "https://youtu.be/aBc123xyz?si=example",  # Substitua pelo link correto
+            "História": """Ossain é o guardião do segredo das plantas e das forças curativas que elas possuem.""",
+            "Video": "https://youtu.be/bCd456uvw?si=example"  # Substitua pelo link correto
+        },
+        "Logunedé": {
+            "Descrição": "Orixá da dualidade, associado à caça, à pesca e à beleza.",
+            "Elemento": "Água e Terra",
+            "Cor": "Azul Claro e Amarelo",
+            "Música": "https://youtu.be/example1?si=link",
+            "História": """Logunedé é o jovem encantador que transita entre o mundo da caça e o das águas.""",
+            "Video": "https://youtu.be/example2?si=link"
+        },
+        "Iroko": {
+            "Descrição": "Orixá da ancestralidade e das grandes árvores sagradas.",
+            "Elemento": "Terra",
+            "Cor": "Branco e Verde",
+            "Música": "https://youtu.be/example3?si=link",
+            "História": """Iroko simboliza a ligação entre o céu e a terra, sendo reverenciado em grandes árvores.""",
+            "Video": "https://youtu.be/example4?si=link"
+        },
+        "Ewé": {
+            "Descrição": "Orixá protetor das plantas e das folhas sagradas.",
+            "Elemento": "Terra",
+            "Cor": "Verde",
+            "Música": "https://youtu.be/example5?si=link",
+            "História": """Ewé é o poder das folhas e ervas, essencial nos rituais e na cura.""",
+            "Video": "https://youtu.be/example6?si=link"
+        },
+
+    }
+
+    info = orixas.get(orixa)
+    if info:
+        # Limpa a janela principal antes de exibir as informações do Orixá
+        for widget in root.winfo_children():
+            widget.destroy()
+
+        frame_opcoes = tk.Frame(root, bg="#263238")
+        frame_opcoes.pack(fill="both", expand=True, padx=20, pady=20)
+
+        title_label = tk.Label(frame_opcoes, text=orixa, font=("Arial", 22, "bold"), bg="#263238", fg="#ffffff")
+        title_label.pack(pady=10)
+
+        descricao_label = tk.Label(frame_opcoes, text=info["Descrição"], font=("Arial", 12), bg="#263238", fg="#ffffff", wraplength=500)
+        descricao_label.pack(pady=10)
+
+        historia_label = tk.Label(frame_opcoes, text=info["História"], font=("Arial", 12), bg="#263238", fg="#ffffff", wraplength=500)
+        historia_label.pack(pady=10)
+
+        botao_video = ttk.Button(frame_opcoes, text="Assistir Vídeo Explicativo", command=lambda: webbrowser.open(info["Video"]), style="TButton")
+        botao_video.pack(pady=10, ipadx=10, ipady=5, fill='x')
+
+        botao_musica = ttk.Button(frame_opcoes, text="Ouvir Música do Orixá", command=lambda: webbrowser.open(info["Música"]), style="TButton")
+        botao_musica.pack(pady=10, ipadx=10, ipady=5, fill='x')
+
+        botao_fechar = ttk.Button(frame_opcoes, text="Fechar", command=lambda: voltar_para_menu_principal(root), style="TButton")
+        botao_fechar.pack(pady=20, ipadx=10, ipady=5, fill='x')
+    else:
+        messagebox.showerror("Erro", "Orixá não encontrado!")
+
+# Função para voltar ao menu principal
+def voltar_para_menu_principal(root):
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    title_label = tk.Label(root, text="Escolha um Orixá", font=("Helvetica", 28, "bold"), bg="#1e272e", fg="#00a8ff")
+    title_label.pack(pady=20)
+
+    botao_ancestralidade = ttk.Button(
+        root,
+        text="O que é a Ancestralidade?",
+        command=lambda: webbrowser.open("https://youtu.be/SojgSkb8FwI?si=bta3Zf0i4fTB3S69"),
+        style="TButton"
+    )
+    botao_ancestralidade.pack(pady=10, ipadx=10, ipady=5, fill='x')
+
+    frame_botoes = tk.Frame(root, bg="#1e272e")
+    frame_botoes.pack(pady=10)
+
+    # Criação de um frame para organizar os botões em colunas
+    frame_botoes = tk.Frame(root, bg="#263238")
+    frame_botoes.pack(pady=10)
+
+    buttons = ["Exu", "Ogum", "Iansã", "Oxum", "Yemanjá", "Oxóssi", "Nanã", "Obá", "Oxaguiã", "Xangô", "Oxumarê", "Ossain", "Logunedé", "Iroko", "Ewé" ]
+    for i, orixa in enumerate(buttons):
+        col = i % 4
+        row = i // 4
+        button = ttk.Button(frame_botoes, text=orixa, style=f"{orixa}.TButton", command=lambda o=orixa: abrir_menu_opcoes_orixa(o, root))
+        button.grid(row=row, column=col, padx=10, pady=10, ipadx=10, ipady=5)
+
+# Função para abrir o menu de opções do Orixá
+def abrir_menu_opcoes_orixa(orixa, root):
+    exibir_informacoes(orixa, root)
+
+# Função principal para criar a interface
+def main():
+    root = tk.Tk()
+    root.state('zoomed')
+    root.title("Orixás")
+    root.geometry("600x700")  # Ajusta o tamanho da janela
+    root.config(bg="#1e272e")
+    # Configuração de estilos
+    style = ttk.Style()
+    style.configure("TButton", font=("Lucida Handwriting", 14), padding=15, relief="flat", foreground="red", background="#4cd137")
+
+    voltar_para_menu_principal(root)
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
+
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy Jekyll site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42 # v1.161.0
+        with:
+          ruby-version: '3.1' # Not needed with a .ruby-version file
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          cache-version: 0 # Increment this number if you need to re-download cached gems
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Build with Jekyll
+        # Outputs to the './_site' directory by default
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+      - name: Upload artifact
+        # Automatically uploads an artifact from the './_site' directory by default
+        uses: actions/upload-pages-artifact@v3
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
